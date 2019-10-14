@@ -9,15 +9,20 @@ import com.opencsv.CSVReaderBuilder;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CsvParser
 {
-    public List<Record> parse(String filePath) throws IOException
+    public List<Record> parse(Path filePath) throws IOException
     {
-        Reader reader = Files.newBufferedReader(Paths.get(filePath));
+        if(filePath == null)
+        {
+            return null;
+        }
+
+        Reader reader = Files.newBufferedReader(filePath);
 
         CSVReader csvReader = getCsvReader(reader);
 

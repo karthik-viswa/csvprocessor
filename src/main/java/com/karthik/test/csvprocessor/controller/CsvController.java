@@ -5,13 +5,13 @@ import com.karthik.test.csvprocessor.parse.CsvParser;
 import com.karthik.test.csvprocessor.parse.Normaliser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -40,13 +40,13 @@ public class CsvController
         }
 
         byte[] bytes = file.getBytes();
-        Path path = Paths.get(uploadPath + "/" + file.getOriginalFilename());
-        Files.write(path, bytes);
+        Path filePath = Paths.get(uploadPath + File.separator + file.getOriginalFilename());
+        Files.write(filePath, bytes);
         redirectAttributes.addFlashAttribute("message",
                         "Showing results from '" + file.getOriginalFilename() + "'");
 
         CsvParser parser = new CsvParser();
-        List<Record> allRecords = parser.parse(path.toString());
+        List<Record> allRecords = parser.parse(filePath);
 
         List<Record> normalisedRecords = new Normaliser().getNormalisedRecords(allRecords);
 

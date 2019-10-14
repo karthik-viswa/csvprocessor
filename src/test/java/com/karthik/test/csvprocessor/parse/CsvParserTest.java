@@ -4,10 +4,9 @@ import com.karthik.test.csvprocessor.model.Record;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
+import java.nio.file.Paths;
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 
 public class CsvParserTest
@@ -16,11 +15,9 @@ public class CsvParserTest
     public void testParseSingleVariable() throws IOException
     {
         CsvParser parser = new CsvParser();
-        String file = "src/test/resources/exampleA_input.csv";
 
-        List<Record> records = parser.parse(file);
+        List<Record> records = parser.parse(Paths.get("src/test/resources/exampleA_input.csv"));
 
-        //assertThat(records.size(), is(5));
         assertEquals(5, records.size());
         records.stream().forEach(record -> assertEquals(1, record.getValues().size()));
         assertEquals(3, records.stream().filter(record -> record.getDecision().equals("0")).count());
@@ -31,9 +28,8 @@ public class CsvParserTest
     public void testParseMultipleVariables() throws IOException
     {
         CsvParser parser = new CsvParser();
-        String file = "src/test/resources/exampleC_input.csv";
 
-        List<Record> records = parser.parse(file);
+        List<Record> records = parser.parse(Paths.get("src/test/resources/exampleC_input.csv"));
 
         assertEquals(7, records.size());
         records.stream().forEach(record -> assertEquals(2, record.getValues().size()));
