@@ -1,0 +1,38 @@
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+</head>
+<body>
+
+<h3>CSV Processor</h3>
+
+<form class="form-inline" method="POST" enctype="multipart/form-data" action="/">
+    <div class="form-group">
+        <label for="inputFile">Input CSV File</label>
+        <input type="file" name="file" id="inputFile" accept=".csv">
+        <p class="help-block">Upload a csv file</p>
+    </div>
+    <button type="submit" class="btn btn-default">Upload</button>
+</form>
+
+<div th:if="${message}">
+    <h4 th:text="${message}"/>
+</div>
+
+<div>
+    <table th:if="${records != null}" class="table table-bordered table-hover">
+        <tr>
+            <th>ID</th>
+            <th th:each="i: ${#numbers.sequence(1, varCount)}" th:text="${'Var' + i}">
+            <th>Decision</th>
+        </tr>
+        <tr th:each="record : ${records}">
+            <td><span th:text="${record.id}">ID</span></td>
+            <td th:each="value : ${record.values}"><span th:text="${value}">value</span></td>
+            <td><span th:text="${record.decision}">Decision</span></td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>
